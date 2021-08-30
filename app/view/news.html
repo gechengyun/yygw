@@ -1,0 +1,79 @@
+<% include public/head.html %>
+<body>
+<% include public/logo.html %>
+<% include public/banner.html %>
+<div class="clear"></div>
+<div class="mainWarp" id="news" v-loading="loading">
+  <div class="titbox">
+    <div class="titspan">新闻资讯</div>
+    <div class="titline"></div>
+  </div>
+  <ul class="part5-ul">
+    <li class="part5-item flex-nowrap" v-for="item of list" :key="item.id">
+      <div class="newsimg"><img :src="item.pic" class="image"/></div>
+      <div class="news-desc">
+        <div class="news-date">{{item.creatTime}}</div>
+        <div class="news-word">{{item.news_title}}</div>
+        <a @click="handleClick(item.id)"><div class="news-btn">阅读更多</div></a>
+      </div>
+    </li>
+
+  </ul>
+  <div class="pagebox">
+    <el-pagination
+      background
+      :page-size="5"
+      layout="prev, pager, next"
+      @current-change="handleCurrentChange"
+      :current-page.sync="current"
+      :total="total">
+    </el-pagination>
+  </div>
+</div>
+<% include public/foot.html %>
+</body>
+</html>
+<script>
+  new Vue({
+    el: "#news",
+    data: {
+      loading: false,
+      // 分页
+      current: 1,
+      total: 0,
+      list: []
+    },
+    created() {
+      this.getNews()
+    },
+    methods: {
+      handleCurrentChange(val) {
+        this.current = val
+        this.getNews()
+      },
+      getNews() {
+        this.loading = true;
+        axios.get(`/newsList?page=${this.current}`)
+        .then( (response) => {
+          if (response.data.status === 200) {
+            this.total = response.data.total;
+            this.list = response.data.data;
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '获取失败'
+            });
+          }
+          this.loading = false;
+          })
+        .catch(function (error) {
+          this.loading = false;
+          console.log(error);
+        });
+      },
+      handleClick(id) {
+        window.open('newsDetail?id='+id);
+      }
+    }
+  })
+</script>

@@ -1,0 +1,334 @@
+<% include public/head.html %>
+
+<body>
+<% include public/logo.html %>
+<div class="clear"></div>
+<div class="mainWarp" id="order">
+  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-position="top" label-width="100px">
+    <div class="formDiv">
+      <p class="formp">合作申请</p>
+      <p class="formt">拥有海量活跃用户，众多新颖的活动，艺羊值得你加入</p>
+      <div class="form-tab flex-nowrap">
+        <div class="form-tab-item form-tab-item-active" >个人</div>
+        <div class="form-tab-lab">
+          适合个人/个体工商店户入驻，提供身份证等即可开店
+        </div>
+      </div>
+      <div class="form-content">
+        <p class="formp1">经营者信息</p>
+        <div class="formf">
+          <el-col :span="3" class="label-require">
+            经营者姓名
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="" prop="name">
+              <el-input v-model="ruleForm.name" :maxlength="30"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="2">
+              <div style="color:#fff">1</div>
+          </el-col>
+          <el-col :span="3" class="label-require">
+            手机号码
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="" prop="phone">
+              <el-input v-model="ruleForm.phone" :maxlength="11"></el-input>
+            </el-form-item>
+          </el-col>
+        </div>
+        <el-form-item label-position="top" label="身份证正反面(图片要求清晰）" prop="idCardFront">
+          <el-upload
+            action="<%= api%>upload/file"
+            :limit="1"
+            list-type="picture-card"
+            :on-remove="(...arg) => handleRemove('idCardFront', 'ruleForm', ...arg)"
+            :on-success="(...arg) => handleSuccess('idCardFront', 'ruleForm', false, ...arg)"
+            :on-exceed="(...arg) => handleExceed('idCardFront', 1, ...arg)"
+            :before-upload="(...arg) => handleBeforeUpload('idCardFront', 5, 'img', ['jpg', 'jpeg', 'png', 'PNG', 'JPG', 'JPEG'], ...arg)"
+            :file-list="fileList['idCardFront']"
+            >
+            <i class="el-icon-plus"></i>
+            <span class="idcard-text">正面</span>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="" prop="idCardBack">
+          <el-upload
+            action="<%= api%>upload/file"
+            :limit="1"
+            list-type="picture-card"
+            :on-remove="(...arg) => handleRemove('idCardBack', 'ruleForm', ...arg)"
+            :on-success="(...arg) => handleSuccess('idCardBack', 'ruleForm', false, ...arg)"
+            :on-exceed="(...arg) => handleExceed('idCardBack', 1, ...arg)"
+            :before-upload="(...arg) => handleBeforeUpload('idCardBack', 5, 'img', ['jpg', 'jpeg', 'png', 'PNG', 'JPG', 'JPEG'], ...arg)"
+            :file-list="fileList['idCardBack']"
+            >
+            <i class="el-icon-plus"></i>
+            <span class="idcard-text">反面</span>
+          </el-upload>
+        </el-form-item>
+        <p class="formp1">店铺资质</p>
+        <div class="formf">
+          <el-col :span="3" class="label-require">
+            店铺名称
+          </el-col>
+          <el-col :span="8">
+            <el-form-item label="" prop="storeName">
+              <el-input v-model="ruleForm.storeName" :maxlength="60"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="13">
+            <div style="color:#fff;height:70px;">1</div>
+          </el-col>
+        </div>
+        <el-form-item label="店铺logo(图片要求清晰）" prop="storeLogo">
+          <el-upload
+            action="<%= api%>upload/file"
+            :limit="1"
+            list-type="picture-card"
+            :on-remove="(...arg) => handleRemove('storeLogo', 'ruleForm', ...arg)"
+            :on-success="(...arg) => handleSuccess('storeLogo', 'ruleForm', false, ...arg)"
+            :on-exceed="(...arg) => handleExceed('storeLogo', 1, ...arg)"
+            :before-upload="(...arg) => handleBeforeUpload('storeLogo', 5, 'img', ['jpg', 'jpeg', 'png', 'PNG', 'JPG', 'JPEG'], ...arg)"
+            :file-list="fileList['storeLogo']"
+            >
+            <i class="el-icon-plus"></i>
+            <span class="idcard-text"></span>
+          </el-upload>
+        </el-form-item>
+      </div>
+    </div>
+    <div class="formBtn" @click="submitForm('ruleForm')">提交</div>
+  </el-form>  
+  <div class="book-floor2 flex-between">
+    <div class="book-floor2-left">
+      <p class="book-floor2-left-title">艺羊直购</p>
+      <p class="book-floor2-left-desc">一个新零售社交电商直播卖货平台，通过"电商+店商"、"线上+线下"相结合的模式，结合自身成熟的主播孵化体系，培养优质直播达人</p>
+    </div>
+    <div class="book-floor2-right">
+      <img src="/public/images/book/floor2.png" class="image" />
+    </div>
+  </div>
+  <div class="book-floor3">
+    <p class="book-floor3-title">MCN直播商学院</p>
+    <p class="book-floor3-desc">艺羊MCN直播商学院，旨在打造强势IP，孵化优质主播，我们将从运营、流量、变现等多维度提供全面支持，助力主播快速成长。艺羊计划2021年底打造5个头部主播、50个腰部主播、500个月入5万的主播，我们欢迎各位达人、主播加入，一起共同成长。</p>
+    <div class="book-floor3-div flex-between">
+      <div class="book-floor3-div-item" v-for="item of floor3" :key="item.id">
+        <img :src="item.src" class="book-floor3-div-item-image" />
+        <p class="book-floor3-div-item-title">{{item.title}}</p>
+        <p class="book-floor3-div-item-desc">{{item.desc}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="book-floor4">
+    <div class="book-floor4-title">
+      <img src="/public/images/book/floor4-title.png" class="image" />
+    </div>
+    <div class="book-floor4-div flex-between">
+      <div class="book-floor4-div-item" v-for="item of floor4" :key="item.id">
+        <img :src="item.src" class="book-floor3-div-item-image" />
+        <p class="book-floor4-div-item-title">{{item.title}}</p>
+        <p class="book-floor4-div-item-desc">{{item.desc}}</p>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="titbox">
+    <div class="titspan">商家入驻</div>
+    <div class="titline"></div>
+  </div>
+  <div class="detailbox">
+    <div class="xq">
+      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+        <el-form-item label="姓名:" prop="name">
+          <el-input v-model="ruleForm.name" :maxlength="30"></el-input>
+        </el-form-item>
+        <el-form-item label="电话:" prop="phone">
+          <el-input v-model="ruleForm.phone" :maxlength="11"></el-input>
+        </el-form-item>
+        <el-form-item label="证件照片:" prop="idCardFront">
+          <el-upload
+            action="<%= api%>upload/file"
+            :limit="1"
+            list-type="picture-card"
+            :on-remove="(...arg) => handleRemove('idCardFront', 'ruleForm', ...arg)"
+            :on-success="(...arg) => handleSuccess('idCardFront', 'ruleForm', false, ...arg)"
+            :on-exceed="(...arg) => handleExceed('idCardFront', 1, ...arg)"
+            :before-upload="(...arg) => handleBeforeUpload('idCardFront', 5, 'img', ['jpg', 'jpeg', 'png', 'PNG', 'JPG', 'JPEG'], ...arg)"
+            :file-list="fileList['idCardFront']"
+            >
+            <i class="el-icon-plus"></i>
+            <span class="idcard-text">正面</span>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="" prop="idCardBack">
+          <el-upload
+            action="<%= api%>upload/file"
+            :limit="1"
+            list-type="picture-card"
+            :on-remove="(...arg) => handleRemove('idCardBack', 'ruleForm', ...arg)"
+            :on-success="(...arg) => handleSuccess('idCardBack', 'ruleForm', false, ...arg)"
+            :on-exceed="(...arg) => handleExceed('idCardBack', 1, ...arg)"
+            :before-upload="(...arg) => handleBeforeUpload('idCardBack', 5, 'img', ['jpg', 'jpeg', 'png', 'PNG', 'JPG', 'JPEG'], ...arg)"
+            :file-list="fileList['idCardBack']"
+            >
+            <i class="el-icon-plus"></i>
+            <span class="idcard-text">反面</span>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label="店铺名称:" prop="storeName">
+          <el-input v-model="ruleForm.storeName" :maxlength="60"></el-input>
+        </el-form-item>
+        <el-form-item label="店铺logo" prop="storeLogo">
+          <el-upload
+            action="<%= api%>upload/file"
+            :limit="1"
+            list-type="picture-card"
+            :on-remove="(...arg) => handleRemove('storeLogo', 'ruleForm', ...arg)"
+            :on-success="(...arg) => handleSuccess('storeLogo', 'ruleForm', false, ...arg)"
+            :on-exceed="(...arg) => handleExceed('storeLogo', 1, ...arg)"
+            :before-upload="(...arg) => handleBeforeUpload('storeLogo', 5, 'img', ['jpg', 'jpeg', 'png', 'PNG', 'JPG', 'JPEG'], ...arg)"
+            :file-list="fileList['storeLogo']"
+            >
+            <i class="el-icon-plus"></i>
+            <span class="idcard-text"></span>
+          </el-upload>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="danger" @click="submitForm('ruleForm')">立即创建</el-button>
+          <el-button @click="resetForm('ruleForm')">重置</el-button>
+        </el-form-item>
+      </el-form>
+    </div>
+  </div> -->
+  <div class="clear"></div>
+</div>
+<% include public/foot.html %>
+
+</body>
+</html>
+<script>
+  const isLegalFile = (vm, file, size = 5, preset = 'img', DIYformat) => {
+    const formatPreset = {
+      img: ['jpg', 'jpeg', 'png', 'PNG', 'JPG', 'JPEG'],
+    };
+    const format = DIYformat || formatPreset[preset];
+    const index = file.name.lastIndexOf('.');
+    const suffix = file.name.substring(index + 1);
+    if (format.indexOf(suffix) === -1) {
+      vm.$alert(`只能上传${format.toString()}格式的文件`, {
+        type: 'warning'
+      });
+      return false;
+    } else if (file.size > size * 1024 * 1024) {
+      vm.$alert(`文件需限制在${size}M以内, 当前文件大小${(file.size / 1024 / 1024).toFixed(2)}M`, {
+        type: 'warning'
+      });
+      return false;
+    }
+  };
+  const tel = /^1(3|4|5|6|7|8|9)\d{9}$/
+  const validatePhone = (rule, value, callback) => {
+    if (!tel.test(value)) {
+      callback(new Error('请输入正确的手机号码'));
+    } else {
+      callback();
+    }
+  };
+  new Vue({
+    el:'#order',
+    data: {
+      fileList: {},
+      ruleForm: {
+        name: '',
+        phone: '',
+        idCardFront: '',
+        idCardBack: '',
+        storeName: '',
+        storeLogo: ''
+      },
+      ruleFormbak: {},
+      fileList: {},
+      loading: false,
+      rules: {
+          name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+          phone: [{ required: true, message: '请输入手机号', trigger: 'blur' }, { validator: validatePhone, trigger: 'blur' }],
+          storeName: { required: true, message: '请输入店铺名称', trigger: 'blur' },
+          idCardFront:  [{ required: true, message: '请上传上传身份证照正面', trigger: 'change' }], 
+          idCardBack:  [{ required: true, message: '请上传上传身份证照反面', trigger: 'change' }], 
+          storeLogo:  [{ required: true, message: '请上传店铺logo', trigger: 'change' }]
+        },
+        active: 0,
+        tab: ['个人', '企业'],
+        floor3: [
+          {id:0,src: '/public/images/book/floor3-icon1.png',title: '流量扶持', desc: '海量资源扶持'},
+          {id:1,src: '/public/images/book/floor3-icon2.png',title: '专业培训', desc: '从零开始，传授涨粉及直播带货技巧'},
+          {id:2,src: '/public/images/book/floor3-icon3.png',title: 'IP打造', desc: '专业内容制作团队，打造专属人设'},
+          {id:3,src: '/public/images/book/floor3-icon4.png',title: '货源无忧', desc: '优质供应链货源匹配'},
+        ],
+        floor4: [
+          {id:0,src: '/public/images/book/floor4-icon1.png',title: '艺羊直购APP/小程序', desc: '自有平台流量曝光扶持，商家可低门槛低成本一键开店直播卖货'},
+          {id:1,src: '/public/images/book/floor4-icon2.png',title: '强大供应链资源', desc: '已合作2000+优质供应链基地'},
+          {id:2,src: '/public/images/book/floor4-icon3.png',title: '线下实体店品牌体验店', desc: '滁州、六安几十万方线下场景式品牌购物体验店，申请入驻享优惠'},
+        ]
+    },
+    created() {
+      this.ruleFormbak = {...this.ruleForm}
+    },
+    methods: {
+      handleBeforeUpload(field, size = 5, preset = 'img', DIYformat, file) {
+        return isLegalFile(this, file, size, preset, DIYformat);
+      },
+      handleSuccess(field, formName = 'ruleForm', single = true, response, file, fileList) {
+        if (response.code === 0 && response.data) {
+          this.fileList[field] = Array.prototype.slice.call(fileList);
+          this[formName][field] = this.fileList[field].map(item => item.response ? item.response.data[0] : '').join(',');
+          this.$refs[formName] && this.$refs[formName].validateField(field);
+        } else {
+          this.$alert(response.msg, '提示', { type: 'error' }).then(() => { }).catch(() => { });
+        }
+      },
+      handleRemove(field, formName = 'ruleForm', file, fileList) {
+        this.fileList[field] = fileList;
+        this[formName][field] = this.fileList[field].map(item => item.response ? item.response.data[0] : '').join(',');
+      },
+      handleExceed(field, num) {
+        this.$message.warning(`当前限制上传 ${num} 份文件`);
+      },
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            this.loading = true
+            axios.post(`<%= api %>store/apply/add`,this.ruleForm)
+              .then( (response) => {
+                if (response.data.code === 0) {
+                  this.$alert('入驻成功，请下载app查看', '提示', {
+                    confirmButtonText: '确定',
+                    callback: action => {
+                      window.location.href="/" 
+                    }
+                  })
+                } else {
+                  this.$notify.error({
+                    title: '错误',
+                    message: '获取失败'
+                  });
+                }
+                this.loading = false;
+                })
+              .catch(function (error) {
+                this.loading = false;
+                console.log(error);
+              });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      },
+      
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      },
+    }
+  })
+</script>

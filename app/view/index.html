@@ -1,0 +1,146 @@
+<% include public/head.html %>
+<body>
+  <div id="app">
+    <% include public/logo.html %>
+    <% include public/banner.html %>
+    <% if(proClassList){  %>
+    <div class="part1">
+      <div class="main">
+        <div class="ptitle">精心专题</div>
+        <div class="part1L flex-between">
+          <% for(item of proClassList){  %>
+          <a href="choose?cid=<%= item.id%>">
+          <div class="part1I">
+            <div class="part1I-top">
+              <img src="<%= item.pic %> " class="image"/>
+            </div>
+
+            <div class="part1I-bottom flex-nowrap">
+              <% if(item.productList){  %> 
+                <% for(items of item.productList){  %> 
+                  <div class="part1I-bottom-item">
+                    <div class="part1I-bottom-item-img">
+                      <img src="<%= items.pic %> " class="image"/>
+                    </div>
+                    <div class="part1I-bottom-item-name">
+                      <%= items.productName %>
+                    </div>
+                    <div class="part1I-bottom-item-name flex-nowrap">
+                      <div class="s-price">¥<%= items.temporaryPrice %></div>
+                      <div class="o-price">¥<%= items.price %></div>
+                    </div>
+                  </div>
+                <% } %> 
+              <% } %> 
+              <div class="clear"></div>
+            </div>
+          </div>
+          </a>
+          <% } %> 
+        </div>
+      </div>
+    </div>
+    <% } %> 
+    <%if(proList){%>
+    <div class="part2">
+      <div class="main">
+        <div class="ptitle">商品中心</div>
+        <ul class="part2L flex-wrap">
+          <% for(item of proList) { %> 
+            <li class="part2-item">
+              <div class="proimg ">
+                <img src="<%= item.pic %>" class="image"/>
+                <div class="thumb-info-title">
+                  <img src="/public/images/index/code.jpg" width="106" height="106" />
+                </div>
+              </div>
+              <p class="pro-name"><%= item.product_name %>  </p>
+              <div class="pro-sign flex-nowrap">
+                <div class="s-price">¥<%= item.temporary_price %></div>
+                <div class="o-price">¥<%= item.price %></div>
+              </div>
+            </li>
+          <% } %> 
+        </ul>
+      </div>
+    </div>
+    <% } %> 
+    <div class="clear"></div>
+    <div class="part4">
+      <div class="main">
+        <div class="title">加入艺羊，优享四大优势</div>
+        <ul class="part4-ul flex-between">
+          <li class="part4-item">
+            <div class="icon"><img src="/public/images/index/1.png" class="image"/></div>
+            <div class="part4-item-title">直播卖货</div>
+            <div class="part4-item-word">
+              人人直播，全民带货，一键开启你的专属直播间 
+            </div>
+          </li>
+          <li class="part4-item">
+            <div class="icon"><img src="/public/images/index/2.png" class="image"/></div>
+             <div class="part4-item-title">MCN直播商学院</div>
+            <div class="part4-item-word">
+              “直播+电商+营销”一体化，培训孵化达人素人主播，打造优质IP
+            </div>
+          </li>
+          <li class="part4-item">
+            <div class="icon"><img src="/public/images/index/3.png" class="image"/></div>
+            <div class="part4-item-title">供应链</div>
+            <div class="part4-item-word">
+              源头厂家一手货源，品类齐全，严格把控产品质量
+            </div>
+          </li>
+          <li class="part4-item">
+            <div class="icon"><img src="/public/images/index/4.png" class="image"/></div>
+            <div class="part4-item-title">线下品牌体验店</div>
+            <div class="part4-item-word">
+              六安/滁州几十万方综合体，打造线下沉浸式场景品牌购物体验店
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="clear"></div>
+    <%if(newsList){%>
+    <div class="part5">
+      <div class="main">
+        <div class="ptitle">企业资讯 <a class="more" href="news">查看更多></a></div>
+        <ul class="part5-ul">
+          <% for(item of newsList) {%> 
+          <li class="part5-item flex-nowrap">
+            <div class="newsimg"><img src="<%- item.pic %>" class="image"/></div>
+            <div class="news-desc">
+              <div class="news-word"><%- item.news_title %></div>
+              <div class="news-date"><%= helper.formatTime(item.create_time) %></div>
+              <a href="newsDetail?id=<%= item.id %>" target="_blank"><div class="news-btn">阅读更多</div></a>
+            </div>
+          </li>
+          <% } %> 
+        </ul>
+      </div>
+    </div>
+    <% } %> 
+    <div class="wechat">
+      <img src="/public/images/index/code.jpg" class="wechatimg" /> 
+      <p class="wechatp">扫码关注公众号 </p>
+      <p class="wechatp">开启品质生活 </p>
+    </div>
+    <% include public/foot.html %>
+  </div>
+</body>
+<script>
+  $(document).ready(function(){
+    $(".proimg").hover(function() {
+      $(this).find(".thumb-info-title").stop()
+      .animate({left: "0", opacity:1}, "fast")
+      .css("display","block")
+
+    }, function() {
+      $(this).find(".thumb-info-title").stop()
+      .animate({left: "0", opacity: 0}, "fast")
+    });
+
+  }); 
+</script>
+</html>

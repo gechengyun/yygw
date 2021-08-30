@@ -1,0 +1,90 @@
+<% include public/head.html %>
+
+<body>
+  <% include public/logo.html %>
+  <% include public/banner.html %>
+<div class="clear"></div>
+<div class="mainWarp" id="recruit" v-loading="loading">
+  <div class="titbox">
+    <div class="titspan">社会招聘</div>
+    <div class="titline"></div>
+  </div>
+  <div class="detailbox">
+    <div class="xq recruitment-list" v-for="item of list" :key="item.id">
+      <div class="recruitment-title">{{item.post}}</div>
+      <div class="recruitment-stitle">
+       <span>{{item.create_time.split('T')[0]}}</span>
+       <span class="padding-left10">工作地址：{{item.work_address}}</span> 
+       <span class="padding-left10">招收人数：{{item.enrollment}}</span> 
+       <span class="padding-left10">福利待遇：{{dictType[item.payment]}}</span> 
+      </div>
+      <div class="duty">
+        <div class="duty-title">岗位职责：</div>
+        <div v-html="item.duty"></div>
+      </div>
+      <div class="duty">
+        <div class="duty-title">任职资格：</div>
+        <div v-html="item.qualifications"></div>
+      </div>
+      <div>
+      </div>
+    </div>
+  </div>
+  <div class="recruit-tips">Tips: 简历可投递到：wuxiuli@artyy.cn
+    邮件/简历命名格式：【官网】岗位 - 姓名</div>
+  <div class="pagebox">
+    <el-pagination
+      background
+      :page-size="5"
+      layout="prev, pager, next"
+      @current-change="handleCurrentChange"
+      :current-page.sync="current"
+      :total="total">
+    </el-pagination>
+  </div>
+</div>
+<% include public/foot.html %>
+</body>
+</html>
+<script>
+  new Vue({
+    el: "#recruit",
+    data: {
+      loading: false,
+      // 分页
+      current: 1,
+      total: 0,
+      list: [],
+      dictType: ['面议','3K以下','3-5K','5-10K','10-15K','15-20K','20-25K','25-30K','30-50K','30-50K', '50K以上']
+    },
+    created() {
+      this.getRecruit()
+    },
+    methods: {
+      handleCurrentChange(val) {
+        this.current = val
+        this.getRecruit()
+      },
+      getRecruit() {
+        this.loading = true;
+        axios.get(`/recruitList?page=${this.current}`)
+        .then( (response) => {
+          if (response.data.status === 200) {
+            this.total = response.data.total;
+            this.list = response.data.data;
+          } else {
+            this.$notify.error({
+              title: '错误',
+              message: '获取失败'
+            });
+          }
+          this.loading = false;
+          })
+        .catch(function (error) {
+          this.loading = false;
+          console.log(error);
+        });
+      }
+    }
+  })
+</script>

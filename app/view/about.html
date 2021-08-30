@@ -1,0 +1,70 @@
+<% include public/head.html %>
+<body>
+<% include public/logo.html %>
+<% include public/banner.html %>
+<div class="clear"></div>
+<div class="mainWarp" id="about">
+  <div class="titbox">
+    <div class="titspan">企业宣传</div>
+    <div class="titline"></div>
+  </div>
+  <div class="ent-main">
+    <div class="ent-img">
+      <img src="/public/images/about/ent.png" class="image" />
+    </div>
+    <div class="ent-desc">
+      <p>安徽宜购网络科技有限公司成立于2020年3月26日，注册资本2.2亿元，总部位于安徽省合肥市。</p>
+      <p>公司是一家集互联网科技、商业艺术创新、大数据物联网为一体(产、学、研、销)的网络科技有限公司。 </p>
+      <p>公司致力于线上原创IP孵化、优质短视频创作、电商运营、原产供应链、仓储物流、全渠道、广告代言、艺羊资本。艺羊直购全球（百货）服务商，将艺术欣赏、生态田园、直播带货，原产直发完美融合。带出无限创意，自由及潮流化生活品牌，并为大众消费者带来前所未有的感官体验，品质保障以及品牌实惠，艺羊创造品质生活。</p>
+    </div>
+  </div>
+  <div class="titbox">
+    <div class="titspan">团队介绍</div>
+    <div class="titline"></div>
+  </div>
+  <ul class="flex-between team">
+    <li class="team-item" v-for="item in team" :key="item.id">
+      <img :src="item.url" class="team-img" />
+      <div class="team-word">
+        <div class="team-name">{{item.name}}</div>
+        <div class="team-desc">{{item.desc}}</div>
+      </div>
+    </li>
+  </ul>
+  <ul class="flex-between team1">
+    <li class="team-item" v-for="item in team1" :key="item.id">
+      <img :src="item.url" class="team-img" />
+      <div class="team-word">
+        <div class="team-name">{{item.name}}</div>
+        <div class="team-desc">{{item.desc}}</div>
+      </div>
+    </li>
+  </ul>
+</div>
+<% include public/foot.html %>
+</body>
+</html>
+<script>
+  new Vue({
+    el: '#about',
+    data: {
+      team: [
+        { id:1, url:"/public/images/about/lang.png", name: '孙浪', post: '技术总监', desc: '十年以上工作经验，拥有千万级项目策划与管理经验。曾任知名互联网公司技术主管。'},
+        { id:2, url:"/public/images/about/zml.png", name: '张明利', post: '人事总监', desc: '十年以上营销管理经验，曾与阿里铁军实战八年，拥有某知名互联网平台运营经验。'},
+        { id:3, url:"/public/images/about/zk.png", name: '周魁', post: '财务总监', desc: '曾任职于中央广播电视总台，参与过多个国家级大型节目制作，有丰富的节目经验。'},
+        { id:4, url:"/public/images/about/wgc.png", name: '王桂超', post: '品牌推广总监', desc: '资深品牌推广师、知名互联网博主；中国青年创业代表团成员，字节跳动扶贫达人团优秀成员，黄冈师范学院创业导师。'},
+      ],
+      team1: [
+        { id:1, url:"/public/images/about/ww.png", name: '魏巍', post: '人事总监', desc: '拥有10年人力资源工作经验，期间在各大企业就职，从事人力资源管理工作。'},
+        { id:2, url:"/public/images/about/cc.png", name: '陈晨', post: '产品运营总监', desc: '高级产品经理，历任字节跳动抖音、火山产品运营经理，Tiktok海外高级用户运营经理。'},
+        { id:3, url:"/public/images/about/lb.png", name: '刘彬', post: '财务总监', desc: '从事财务管理工作13年，曾先后就职于多家上市企业担任财务总监职务。'},
+      ]
+    },
+    methods: {
+      handleclick(index) {
+        this.activeType = index;
+        console.log(index)
+      }
+    }
+  })
+</script>

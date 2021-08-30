@@ -1,0 +1,35 @@
+<div class="top flex-between">
+  <div class="logo">
+    <a href="/"><img src="/public/images/index/logo.png" /></a>
+  </div>
+  <div class="nav flex-between" id="nav">
+    <a v-for="item of nav" :class="active === item.id?'nav-active' : ''" :key="item.id" :href="item.href"><div class="nav-item">{{item.name}}</div></a>
+  </div>
+</div>
+<script>
+  new Vue({
+    el: "#nav",
+    data: {
+      active: 0,
+      nav: [
+        { id: 0, href:'/', name: '首页'},
+        // { id: 1, href:'/about', name: '企业宣传'},
+        // { id: 2, href:'/news', name: '企业资讯'},
+        { id: 3, href:'/book', name: '商家入驻'},
+        { id: 4, href:'/person', name: '个人入驻'},
+        { id: 5, href:'/recruitment', name: '社会招聘'}]
+    },
+    created() {
+      let pathname = window.location.pathname;
+      if (pathname === '/newsDetail') {
+        pathname = '/news'
+      }
+      for(item of this.nav) {
+        // console.log(window.location.pathname)
+        if (item.href === pathname) {
+          this.active = item.id
+        }
+      }
+    }
+  })
+</script>

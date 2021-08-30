@@ -1,0 +1,86 @@
+<% include public/head.html %>
+
+<body class="choose">
+  <% include public/logo.html %> 
+  <div class="choose-nav">
+    <div class="choose-nav-i flex-wrap">
+      <% for(item of chooseNav) {%> 
+        <% if(item.id == cid) {%> 
+        <a href="choose?cid=<%= item.id%>"><div class="choose-nav-item choose-nav-item-active"><%= item.name  %> </div></a>
+        <% } else { %> 
+        <a href="choose?cid=<%= item.id%>"><div class="choose-nav-item"><%= item.name  %> </div></a>
+        <% } %> 
+      <% } %> 
+    </div>
+  </div>
+<div class="mainWarp" id="choose">
+ 
+  <div class="choos-top flex-nowrap">
+    <div class="choose-img"><img src="<%= chooseDetail.pic %>" class="image"/></div>
+    <div class="choose-des">
+      <div class="choose-name"><%= chooseDetail.name %></div>
+      <div class="choose-desc">
+        <div><%= chooseDetail.detail %></div>
+      </div>
+      <div class="choose-sign flex-nowrap">
+        <div class="choose-sign-item" v-for="item of sign" :key="item.id">
+          <img :src="item.src" class="choose-sign-image" />
+          <div class="choose-sign-word">{{item.name}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% if(chooseDetail.productList) {%> 
+  <ul class="choose-pro flex-wrap" >
+    <% for(items of chooseDetail.productList){ %> 
+    <li class="choose-pro-item">
+      <div>
+        <img src="<%= items.pic %>" class="choose-pro-img" />
+        <div class="part1I-bottom-item-name"> <%= items.productName %></div>
+        <div class="part1I-bottom-item-name flex-nowrap">
+          <div class="s-price">¥<%= items.temporaryPrice %></div>
+          <div class="o-price">¥<%= items.price %></div>
+        </div>
+      </div>
+      <div class="choose-pro-item2">
+        <img src="/public/images/index/code.jpg" class="codeimg" />
+      </div>
+    </li>
+  <% } %> 
+  </ul>
+  <% } %> 
+</div>
+<% include public/foot.html %>
+</body>
+</html>
+<script>
+  $(document).ready(function(){
+    $(".choose-pro-item").hover(function() {
+      $(this).find(".choose-pro-item2").stop()
+      .animate({left: "0", opacity:1}, "fast")
+      .css("display","block")
+
+    }, function() {
+      $(this).find(".choose-pro-item2").stop()
+      .animate({left: "0", opacity: 0}, "fast")
+    });
+  }); 
+  new Vue({
+    el: "#choose",
+    data: {
+      sign: [
+        {
+        id:1,src:"/public/images/choose/you.png",name:'全场包邮'},
+        {
+        id:2,src:"/public/images/choose/tui.png",name:'7天退换'},
+        {
+        id:3,src:"/public/images/choose/pei.png",name:'假一赔十'},
+        {
+        id:4,src:"/public/images/choose/24.png",name:'24小时发货'},
+      ]
+    },
+    created() {
+   
+    }
+  })
+</script>

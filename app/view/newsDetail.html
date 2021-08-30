@@ -1,0 +1,27 @@
+<% include public/head.html %>
+
+<body>
+  <% include public/logo.html %>
+  <% include public/banner.html %>
+<div class="clear"></div>
+<div class="mainWarp">
+  <div class="titbox">
+    <div class="titspan">新闻资讯</div>
+    <div class="titline"></div>
+  </div>
+  <div class="detailbox">
+    <%if(newsDetail){%>
+    <div class="xq">
+      <h1><%= newsDetail.news_title%> </h1>
+      <div class="date">发布日期：<%= helper.formatTime(newsDetail.create_time)%></div>
+      <div class="con">
+        <%- newsDetail.content %> 
+      </div>
+    </div>
+    <% } %> 
+  </div>
+  <div class="clear"></div>
+</div>
+<% include public/foot.html %>
+</body>
+</html>
